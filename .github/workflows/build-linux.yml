@@ -30,7 +30,6 @@ jobs:
       - name: Clone the packaging repo and copy things into the hosted root
         run: |
           git clone https://gitlab.com/dboddie/limbo-packager.git
-          mkdir inferno-os/tmp/gridchat
           cp limbo-packager/package.sh inferno-os/tmp/
           mkdir inferno-os/tmp/gridchat
           cp gridchat.b gridchat.dis gridchat.pkg License.txt Readme.md inferno-os/tmp/gridchat/
