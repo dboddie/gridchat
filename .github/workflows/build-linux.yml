@@ -29,9 +29,9 @@ jobs:
           mk install
       - name: Clone the packaging repo and copy things into the workspace
         run: |
-          cd $GITHUB_WORKSPACE
           git clone https://gitlab.com/dboddie/limbo-packager.git
           cp -p limbo-packager/package.sh .
+          tree
           cp .github/workflows/gridchat.pkg .
       - name: Create a package
         run: |
