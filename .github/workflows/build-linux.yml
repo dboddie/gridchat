@@ -43,6 +43,12 @@ jobs:
           tree inferno-os/Linux
           inferno-os/Linux/386/bin/emu /tmp/package.sh /tmp/gridchat/gridchat.pkg /tmp/files
           cp inferno-os/Linux/386/bin/emu inferno-os/tmp/files/
-          echo './emu -r . -g600x600 /run' > tmp/files/run.sh
-          chmod a+x tmp/files/run.sh
-          zip -9r gridchat.zip tmp/files
+          echo './emu -r . -g600x600 /run' > inferno-os/tmp/files/run.sh
+          chmod a+x inferno-os/tmp/files/run.sh
+          zip -9r gridchat.zip inferno-os/tmp/files
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: gridchat-archive
+          path: |
+            gridchat.zip
