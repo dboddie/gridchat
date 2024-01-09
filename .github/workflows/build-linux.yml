@@ -45,10 +45,11 @@ jobs:
           cp inferno-os/Linux/386/bin/emu inferno-os/tmp/files/
           echo './emu -r . -g600x600 /run' > inferno-os/tmp/files/run.sh
           chmod a+x inferno-os/tmp/files/run.sh
-          mv inferno-os/tmp/files .
+          mv inferno-os/tmp/files gridchat-pkg
+          zip -r gridchat-pkg.zip gridchat-pkg
       - name: Upload artifact
         uses: actions/upload-artifact@v3
         with:
           name: gridchat-archive
           path: |
-            files
+            gridchat-pkg.zip
