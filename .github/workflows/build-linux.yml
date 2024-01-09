@@ -31,9 +31,13 @@ jobs:
         run: |
           git clone https://gitlab.com/dboddie/limbo-packager.git
           cp limbo-packager/package.sh inferno-os/tmp/
-          mkdir inferno-os/tmp/gridchat
-          ls
-          cp gridchat.b gridchat.dis gridchat.pkg License.txt Readme.md inferno-os/tmp/gridchat/
+      - name: Check out gridchat
+        uses: actions/checkout@v4
+        with:
+          path: 'gridchat'
+      - name: Copy files
+        run: |
+          cp -r gridchat inferno-os/tmp/
       - name: Create a package
         run: |
           emu /tmp/package.sh /tmp/gridchat/gridchat.pkg /tmp/files
