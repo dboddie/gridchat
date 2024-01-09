@@ -27,7 +27,6 @@ jobs:
           mk nuke
           mk mkdirs
           mk install
-          ls Linux/386/bin
       - name: Clone the packaging repo and copy things into the hosted root
         run: |
           git clone https://gitlab.com/dboddie/limbo-packager.git
@@ -43,7 +42,7 @@ jobs:
         run: |
           tree inferno-os/Linux
           inferno-os/Linux/386/bin/emu /tmp/package.sh /tmp/gridchat/gridchat.pkg /tmp/files
-          cp inferno-os/Linux/386/bin/emu tmp/files/
+          cp inferno-os/Linux/386/bin/emu inferno-os/tmp/files/
           echo './emu -r . -g600x600 /run' > tmp/files/run.sh
           chmod a+x tmp/files/run.sh
           zip -9r gridchat.zip tmp/files
