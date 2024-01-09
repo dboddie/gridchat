@@ -10,7 +10,7 @@ jobs:
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install -y libc6-dev-i386 libx11-dev:i386 libxext-dev:i386 linux-libc-dev:i386
+          sudo apt-get install -y libc6-dev-i386 libx11-dev:i386 libxext-dev:i386 linux-libc-dev:i386 gawk
       - name: Clone an Inferno repository
         run: |
           git clone https://github.com/dboddie/inferno-os.git inferno-os
@@ -40,12 +40,12 @@ jobs:
           cp -r gridchat inferno-os/tmp/
       - name: Create a package
         run: |
-          tree inferno-os/Linux
           inferno-os/Linux/386/bin/emu /tmp/package.sh /tmp/gridchat/gridchat.pkg /tmp/files
-          cp inferno-os/Linux/386/bin/emu inferno-os/tmp/files/
-          echo './emu -r . -g600x600 /run' > inferno-os/tmp/files/run.sh
-          chmod a+x inferno-os/tmp/files/run.sh
           mv inferno-os/tmp/files gridchat-pkg
+          cp inferno-os/Linux/386/bin/emu gridchat-pkg/
+          echo './emu -r . -g600x600 /run' > gridchat-pkg/run.sh
+          chmod a+x gridchat-pkg/run.sh
+          cp `ldd gridchat-pkg/emu | awk '$3 ~ "/lib" { print($3) }'` gridchat-pkg
           zip -r gridchat-pkg.zip gridchat-pkg
       - name: Upload artifact
         uses: actions/upload-artifact@v3
