@@ -30,12 +30,9 @@ jobs:
       - name: Clone the packaging repo and copy things into the workspace
         run: |
           git clone https://gitlab.com/dboddie/limbo-packager.git
-          cp -p limbo-packager/package.sh .
-          tree
-          cp .github/workflows/gridchat.pkg .
       - name: Create a package
         run: |
-          ./package.sh gridchat.pkg files
+          limbo-packager/package.sh gridchat.pkg files
           cp inferno-os/Linux/386/bin/emu files/
           echo './emu -r . -g600x600 /run' > files/run.sh
           chmod a+x files/run.sh
