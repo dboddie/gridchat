@@ -27,6 +27,7 @@ jobs:
           mk nuke
           mk mkdirs
           mk install
+          ls Linux/386/bin
       - name: Clone the packaging repo and copy things into the hosted root
         run: |
           git clone https://gitlab.com/dboddie/limbo-packager.git
