@@ -40,7 +40,7 @@ jobs:
           cp -r gridchat inferno-os/tmp/
       - name: Create a package
         run: |
-          emu /tmp/package.sh /tmp/gridchat/gridchat.pkg /tmp/files
+          inferno-os/Linux/386/bin/emu /tmp/package.sh /tmp/gridchat/gridchat.pkg /tmp/files
           cp inferno-os/Linux/386/bin/emu tmp/files/
           echo './emu -r . -g600x600 /run' > tmp/files/run.sh
           chmod a+x tmp/files/run.sh
