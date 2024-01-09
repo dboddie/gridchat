@@ -21,6 +21,7 @@ jobs:
           sed -ri 's/SYSHOST=Plan9/SYSHOST=Linux/' mkconfig
           sed -ri 's/#OBJTYPE/OBJTYPE/' mkconfig
           sed -ri 's/OBJTYPE=\$/#OBJTYPE=\$/' mkconfig
+          sed -ri 's/SIGKILL/SIGTERM/' emu/Linux/os.c
           ./makemk.sh
           export PATH=$PWD/Linux/386/bin/:$PATH
           mk nuke
