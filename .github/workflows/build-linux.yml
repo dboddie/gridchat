@@ -1,6 +1,6 @@
-name: test-i386-builds
-run-name: Build hosted Inferno for i386
-on: [workflow_call, workflow_dispatch]
+name: build-i386-linux
+run-name: Build Linux binary for i386
+on: [push, workflow_dispatch]
 
 jobs:
   clone-and-build-repo:
