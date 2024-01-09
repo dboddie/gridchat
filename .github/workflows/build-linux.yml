@@ -4,13 +4,13 @@ on: [push, workflow_dispatch]
 
 jobs:
   clone-and-build-repo:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     steps:
       - name: Get dependencies
         run: |
           sudo dpkg --add-architecture i386
           sudo apt-get update
-          sudo apt-get install -y libc6-dev-i386 libx11-dev:i386 libxext-dev:i386 linux-libc-dev:i386 gawk
+          sudo apt-get install -y libc6-dev-i386 libx11-dev:i386 libxext-dev:i386 linux-libc-dev:i386
       - name: Clone an Inferno repository
         run: |
           git clone https://github.com/dboddie/inferno-os.git inferno-os
@@ -45,7 +45,6 @@ jobs:
           cp inferno-os/Linux/386/bin/emu gridchat-pkg/
           echo './emu -r . -g600x600 /run' > gridchat-pkg/run.sh
           chmod a+x gridchat-pkg/run.sh
-          cp `ldd gridchat-pkg/emu | awk '$3 ~ "/lib" { print($3) }'` gridchat-pkg
           zip -r gridchat-pkg.zip gridchat-pkg
       - name: Upload artifact
         uses: actions/upload-artifact@v3
