@@ -11,7 +11,7 @@ jobs:
           sudo dpkg --add-architecture i386
           sudo apt-get update
           sudo apt-get install -y libc6-dev-i386
-      - name: Clone the repository
+      - name: Clone an Inferno repository
         run: |
           git clone https://github.com/dboddie/inferno-os.git inferno-os
       - name: Build the host system
@@ -27,12 +27,17 @@ jobs:
           mk nuke
           mk mkdirs
           mk install
-      - name: Clone the packaging repo and copy things into the workspace
+      - name: Clone the packaging repo and copy things into the hosted root
         run: |
           git clone https://gitlab.com/dboddie/limbo-packager.git
+          mkdir inferno-os/tmp/gridchat
+          cp limbo-packager/package.sh inferno-os/tmp/
+          mkdir inferno-os/tmp/gridchat
+          cp gridchat.b gridchat.dis gridchat.pkg License.txt Readme.md inferno-os/tmp/gridchat/
       - name: Create a package
         run: |
-          limbo-packager/package.sh gridchat.pkg files
-          cp inferno-os/Linux/386/bin/emu files/
-          echo './emu -r . -g600x600 /run' > files/run.sh
-          chmod a+x files/run.sh
+          emu /tmp/package.sh /tmp/gridchat/gridchat.pkg /tmp/files
+          cp inferno-os/Linux/386/bin/emu tmp/files/
+          echo './emu -r . -g600x600 /run' > tmp/files/run.sh
+          chmod a+x tmp/files/run.sh
+          zip -9r gridchat.zip tmp/files
