@@ -1,0 +1,41 @@
+name: test-i386-builds
+run-name: Build hosted Inferno for i386
+on: [workflow_call, workflow_dispatch]
+
+jobs:
+  clone-and-build-repo:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Get dependencies
+        run: |
+          sudo dpkg --add-architecture i386
+          sudo apt-get update
+          sudo apt-get install -y libc6-dev-i386
+      - name: Clone the repository
+        run: |
+          git clone https://github.com/dboddie/inferno-os.git inferno-os
+      - name: Build the host system
+        run: |
+          cd $GITHUB_WORKSPACE/inferno-os
+          sed -ri 's|/usr\/inferno|'$PWD'|' mkconfig
+          sed -ri 's/SYSHOST=Plan9/SYSHOST=Linux/' mkconfig
+          sed -ri 's/#OBJTYPE/OBJTYPE/' mkconfig
+          sed -ri 's/OBJTYPE=\$/#OBJTYPE=\$/' mkconfig
+          sed -ri 's/\temu/#\temu/' mkfile
+          ./makemk.sh
+          export PATH=$PWD/Linux/386/bin/:$PATH
+          mk nuke
+          mk mkdirs
+          mk install
+      - name: Clone the packaging repo and copy things into the workspace
+        run: |
+          cd $GITHUB_WORKSPACE
+          git clone https://gitlab.com/dboddie/limbo-packager.git
+          cp -p limbo-packager/package.sh .
+          cp $GITHUB_WORKSPACE/.github/workflows/gridchat.pkg .
+      - name: Create a package
+        run: |
+          ./package.sh gridchat.pkg files
+          cp inferno-os/Linux/386/bin/emu files/
+          echo './emu -r . -g600x600 /run' > files/run.sh
+          chmod a+x files/run.sh

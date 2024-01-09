@@ -1,0 +1,22 @@
+#./package.sh /tmp/gridchat/gridchat.dis /dis/ndb/dns.dis /dis/ndb/cs.dis /dis/sh.dis -w /lib/ndb/local /fonts/misc/* /n/chat /tmp/gc
+
+main:
+/tmp/gridchat/gridchat.dis
+
+files:
+/dis/ndb/dns.dis
+/dis/ndb/cs.dis
+/dis/sh.dis
+/lib/ndb/local
+/fonts/misc/*
+
+dirs:
+/n/chat
+
+options:
+wm
+
+script:
+ndb/dns
+ndb/cs
+wm/wm /tmp/gridchat/gridchat
